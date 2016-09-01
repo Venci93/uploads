@@ -1,0 +1,87 @@
+﻿@model MVC_Blog.Controllers.O
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Детайли</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.p.Title)
+        </dt>
+    
+        <dd>
+            @Html.DisplayFor(model => model.p.Title)
+        </dd>
+    
+        <dt>
+            @Html.DisplayNameFor(model => model.p.Body)
+        </dt>
+    
+        <dd>
+            <div class="" style="background-color: #f5f5f5">@Html.Raw(Model.p.Body)</div>
+        </dd>
+    
+        <dt>
+            @Html.DisplayNameFor(model => model.p.Date)
+        </dt>
+    
+        <dd>
+            @Html.DisplayFor(model => model.p.Date)
+        </dd>
+     
+                @{
+                    <dt>
+                      <p><p><h3>Коментари</h3> </p>  </p>
+                    </dt>
+
+
+                    @Html.Hidden("id", Model.p.Id)
+                    @Html.Hidden("id_comment", -1)
+                    @Html.Hidden("text", "")
+                            <dd>
+                                
+                            </dd>
+
+                            <form method="post">
+                                <dt>
+                                    <input type="submit" value="Коментирай"  />
+                                </dt>
+                                <dd>
+                                    <input type="text" id="text" name="text" />
+                                    
+                                </dd>
+
+
+                            </form>
+
+                    if (Model.p.Comments != null)
+                    {
+                        var counter = 0; 
+                            foreach (var comment in Model.p.Comments)
+                            {
+                                counter++;
+                            <dd>
+                        @comment.Date:
+                            </dd>
+                            <dd class="well-sm", style="background-color: #f5f5f5">
+                               @comment.Text
+                            </dd>
+                        }
+                    }
+                }
+</dl>
+</div>
+
+
+
+<p>
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Administrators"))
+    { @Html.ActionLink("Промяна", "Edit", new { id = Model.p.Id }) }
+}
+    @Html.ActionLink("Обратно към статиите", "Index")
+</p>
